@@ -1,4 +1,6 @@
-<?php namespace Bogstag\OAuth2\Client\Test\Provider;
+<?php
+
+namespace Bogstag\OAuth2\Client\Test\Provider;
 
 use Mockery as m;
 
@@ -9,9 +11,9 @@ class TraktTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->provider = new \Bogstag\OAuth2\Client\Provider\Trakt([
-            'clientId' => 'mock_client_id',
+            'clientId'     => 'mock_client_id',
             'clientSecret' => 'mock_secret',
-            'redirectUri' => 'none',
+            'redirectUri'  => 'none',
         ]);
     }
 
@@ -55,7 +57,7 @@ class TraktTest extends \PHPUnit_Framework_TestCase
     public function testGetAccessToken()
     {
         $response = m::mock('Psr\Http\Message\ResponseInterface');
-        $response->shouldReceive('getBody')->andReturn('{"access_token": "mock_access_token","token_type": "bearer","expires_in": 3600,"refresh_token": "mock_refresh_token","scope": "public","created_at": '. time() .'}');
+        $response->shouldReceive('getBody')->andReturn('{"access_token": "mock_access_token","token_type": "bearer","expires_in": 3600,"refresh_token": "mock_refresh_token","scope": "public","created_at": '.time().'}');
         $response->shouldReceive('getHeader')->andReturn(['content-type' => 'application/json']);
 
         $client = m::mock('GuzzleHttp\ClientInterface');
@@ -83,7 +85,7 @@ class TraktTest extends \PHPUnit_Framework_TestCase
         $postResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
 
         $userResponse = m::mock('Psr\Http\Message\ResponseInterface');
-        $userResponse->shouldReceive('getBody')->andReturn('{"user": {"username": "'. $username .'","name": "'. $name .'","ids": {"slug": "'. $id .'"},"images": {"avatar": {"full": "'. $avatarUrl .'"}}}}');
+        $userResponse->shouldReceive('getBody')->andReturn('{"user": {"username": "'.$username.'","name": "'.$name.'","ids": {"slug": "'.$id.'"},"images": {"avatar": {"full": "'.$avatarUrl.'"}}}}');
         $userResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'application/json']);
 
         $client = m::mock('GuzzleHttp\ClientInterface');
