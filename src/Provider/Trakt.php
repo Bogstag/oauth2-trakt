@@ -8,7 +8,6 @@ use Psr\Http\Message\ResponseInterface;
 
 class Trakt extends AbstractProvider
 {
-
     use BearerAuthorizationTrait;
 
     /**
