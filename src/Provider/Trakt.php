@@ -8,6 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class Trakt extends AbstractProvider
 {
+
     use BearerAuthorizationTrait;
 
     /**
@@ -33,7 +34,7 @@ class Trakt extends AbstractProvider
      */
     public function getBaseAuthorizationUrl()
     {
-        return $this->basUrl . '/oauth/authorize';
+        return $this->basUrl.'/oauth/authorize';
     }
 
     /**
@@ -41,7 +42,7 @@ class Trakt extends AbstractProvider
      */
     public function getBaseAccessTokenUrl(array $params)
     {
-        return $this->baseUrlApi . '/oauth/token';
+        return $this->baseUrlApi.'/oauth/token';
     }
 
     /**
@@ -49,7 +50,7 @@ class Trakt extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return $this->baseUrlApi . '/users/settings';
+        return $this->baseUrlApi.'/users/settings';
     }
 
     /**
@@ -57,11 +58,14 @@ class Trakt extends AbstractProvider
      */
     public function getHeaders($token = null)
     {
-        $headers = [
-            'Content-Type'      => 'application/json',
-            'trakt-api-version' => $this->traktApiVersion,
-            'trakt-api-key'     => $this->clientId
-        ];
+        $headers = [];
+        if ($token) {
+            $headers = [
+                'Content-Type'      => 'application/json',
+                'trakt-api-version' => $this->traktApiVersion,
+                'trakt-api-key'     => $this->clientId
+            ];
+        }
 
         return array_merge(parent::getHeaders($token), $headers);
     }
