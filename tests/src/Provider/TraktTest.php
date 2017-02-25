@@ -76,7 +76,7 @@ class TraktTest extends \PHPUnit_Framework_TestCase
         $username = uniqid();
         $name = uniqid();
         $avatarUrl = uniqid();
-        $id = rand(1000,9999);
+        $id = rand(1000, 9999);
 
         $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
         $postResponse->shouldReceive('getBody')->andReturn('{"access_token":"mock_access_token","authentication_token":"","code":"","expires_in":3600,"refresh_token":"mock_refresh_token","scope":"","state":"","token_type":""}');
