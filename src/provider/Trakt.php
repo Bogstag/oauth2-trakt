@@ -21,6 +21,9 @@ class Trakt extends AbstractProvider
      */
     protected $basUrl = 'https://trakt.tv';
 
+    /**
+     * @var int
+     */
     protected $traktApiVersion = 2;
 
     /**
@@ -78,8 +81,11 @@ class Trakt extends AbstractProvider
     protected function checkResponse(ResponseInterface $response, $data)
     {
         if (isset($data['error'])) {
-            throw new IdentityProviderException((isset($data['error']['message']) ? $data['error']['message'] : $response->getReasonPhrase()),
-                $response->getStatusCode(), $response);
+            throw new IdentityProviderException(
+                (isset($data['error']['message']) ? $data['error']['message'] : $response->getReasonPhrase()),
+                $response->getStatusCode(),
+                $response
+            );
         }
     }
 
@@ -90,5 +96,4 @@ class Trakt extends AbstractProvider
     {
         return new TraktResourceOwner($response);
     }
-
 }
