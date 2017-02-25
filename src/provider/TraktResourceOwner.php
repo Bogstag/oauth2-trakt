@@ -1,12 +1,13 @@
-<?php namespace Bogstag\OAuth2\Client\Provider;
+<?php
+
+namespace Bogstag\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 
 class TraktResourceOwner implements ResourceOwnerInterface
 {
-
     /**
-     * Raw response
+     * Raw response.
      *
      * @var array
      */
@@ -23,7 +24,7 @@ class TraktResourceOwner implements ResourceOwnerInterface
     }
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string|null
      */
@@ -33,7 +34,7 @@ class TraktResourceOwner implements ResourceOwnerInterface
     }
 
     /**
-     * Get user name
+     * Get user name.
      *
      * @return string|null
      */
@@ -43,7 +44,7 @@ class TraktResourceOwner implements ResourceOwnerInterface
     }
 
     /**
-     * Get user avatarurl
+     * Get user avatarurl.
      *
      * @return string|null
      */
@@ -53,7 +54,7 @@ class TraktResourceOwner implements ResourceOwnerInterface
     }
 
     /**
-     * Get user id
+     * Get user id.
      *
      * @return string|null
      */

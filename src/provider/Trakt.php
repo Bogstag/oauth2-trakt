@@ -1,4 +1,6 @@
-<?php namespace Bogstag\OAuth2\Client\Provider;
+<?php
+
+namespace Bogstag\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -8,7 +10,6 @@ use Psr\Http\Message\ResponseInterface;
 
 class Trakt extends AbstractProvider
 {
-
     use BearerAuthorizationTrait;
 
     /**
@@ -31,41 +32,41 @@ class Trakt extends AbstractProvider
      */
     public function getBaseAuthorizationUrl()
     {
-        return $this->basUrl . '/oauth/authorize';
+        return $this->basUrl.'/oauth/authorize';
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getBaseAccessTokenUrl(array $params)
     {
-        return $this->baseUrlApi . '/oauth/token';
+        return $this->baseUrlApi.'/oauth/token';
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return $this->baseUrlApi . '/users/settings';
+        return $this->baseUrlApi.'/users/settings';
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getHeaders($token = null)
     {
         $headers = [
             'Content-Type'      => 'application/json',
             'trakt-api-version' => $this->traktApiVersion,
-            'trakt-api-key'     => $this->clientId
+            'trakt-api-key'     => $this->clientId,
         ];
 
         return array_merge(parent::getHeaders($token), $headers);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function getDefaultScopes()
     {
@@ -73,7 +74,7 @@ class Trakt extends AbstractProvider
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function checkResponse(ResponseInterface $response, $data)
     {
@@ -84,11 +85,10 @@ class Trakt extends AbstractProvider
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function createResourceOwner(array $response, AccessToken $token)
     {
         return new TraktResourceOwner($response);
     }
-
 }
