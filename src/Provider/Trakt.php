@@ -6,6 +6,10 @@ use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Class Trakt
+ * @package Bogstag\OAuth2\Client\Provider
+ */
 class Trakt extends AbstractProvider
 {
     use BearerAuthorizationTrait;
@@ -53,7 +57,7 @@ class Trakt extends AbstractProvider
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function getHeaders($token = null)
     {

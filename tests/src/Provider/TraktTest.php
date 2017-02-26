@@ -6,15 +6,6 @@ class TraktTest extends \PHPUnit_Framework_TestCase
 {
     protected $provider;
 
-    protected function setUp()
-    {
-        $this->provider = new \Bogstag\OAuth2\Client\Provider\Trakt([
-            'clientId' => 'mock_client_id',
-            'clientSecret' => 'mock_secret',
-            'redirectUri' => 'none',
-        ]);
-    }
-
     public function tearDown()
     {
         m::close();
@@ -55,7 +46,10 @@ class TraktTest extends \PHPUnit_Framework_TestCase
     public function testGetAccessToken()
     {
         $response = m::mock('Psr\Http\Message\ResponseInterface');
-        $response->shouldReceive('getBody')->andReturn('{"access_token": "mock_access_token","token_type": "bearer","expires_in": 3600,"refresh_token": "mock_refresh_token","scope": "public","created_at": '. time() .'}');
+        $response->shouldReceive('getBody')->andReturn(
+            '{"access_token": "mock_access_token","token_type": "bearer","expires_in": 3600,"refresh_token": "mock_refresh_token","scope": "public","created_at": '.
+            time().'}'
+        );
         $response->shouldReceive('getHeader')->andReturn(['content-type' => 'application/json']);
 
         $client = m::mock('GuzzleHttp\ClientInterface');
@@ -79,17 +73,20 @@ class TraktTest extends \PHPUnit_Framework_TestCase
         $id = rand(1000, 9999);
 
         $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
-        $postResponse->shouldReceive('getBody')->andReturn('{"access_token":"mock_access_token","authentication_token":"","code":"","expires_in":3600,"refresh_token":"mock_refresh_token","scope":"","state":"","token_type":""}');
+        $postResponse->shouldReceive('getBody')->andReturn(
+            '{"access_token":"mock_access_token","authentication_token":"","code":"","expires_in":3600,"refresh_token":"mock_refresh_token","scope":"","state":"","token_type":""}'
+        );
         $postResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
 
         $userResponse = m::mock('Psr\Http\Message\ResponseInterface');
-        $userResponse->shouldReceive('getBody')->andReturn('{"user": {"username": "'. $username .'","name": "'. $name .'","ids": {"slug": "'. $id .'"},"images": {"avatar": {"full": "'. $avatarUrl .'"}}}}');
+        $userResponse->shouldReceive('getBody')->andReturn(
+            '{"user": {"username": "'.$username.'","name": "'.$name.'","ids": {"slug": "'.$id.
+            '"},"images": {"avatar": {"full": "'.$avatarUrl.'"}}}}'
+        );
         $userResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'application/json']);
 
         $client = m::mock('GuzzleHttp\ClientInterface');
-        $client->shouldReceive('send')
-               ->times(2)
-               ->andReturn($postResponse, $userResponse);
+        $client->shouldReceive('send')->times(2)->andReturn($postResponse, $userResponse);
         $this->provider->setHttpClient($client);
 
         $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
@@ -113,16 +110,27 @@ class TraktTest extends \PHPUnit_Framework_TestCase
         $message = uniqid();
 
         $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
-        $postResponse->shouldReceive('getBody')->andReturn('{"error": {"code": "request_token_expired", "message": "'.$message.'"}}');
+        $postResponse->shouldReceive('getBody')->andReturn(
+            '{"error": {"code": "request_token_expired", "message": "'.$message.'"}}'
+        );
         $postResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'application/json']);
         $postResponse->shouldReceive('getStatusCode')->andReturn(500);
 
         $client = m::mock('GuzzleHttp\ClientInterface');
-        $client->shouldReceive('send')
-               ->times(1)
-               ->andReturn($postResponse);
+        $client->shouldReceive('send')->times(1)->andReturn($postResponse);
         $this->provider->setHttpClient($client);
 
         $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
+    }
+
+    protected function setUp()
+    {
+        $this->provider = new \Bogstag\OAuth2\Client\Provider\Trakt(
+            [
+                'clientId' => 'mock_client_id',
+                'clientSecret' => 'mock_secret',
+                'redirectUri' => 'none',
+            ]
+        );
     }
 }
