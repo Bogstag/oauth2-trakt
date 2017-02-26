@@ -18,7 +18,7 @@ class Trakt extends AbstractProvider
     /**
      * @var string
      */
-    protected $basUrl = 'https://trakt.tv';
+    protected $baseUrl = 'https://trakt.tv';
 
     /**
      * @var int
@@ -33,7 +33,7 @@ class Trakt extends AbstractProvider
      */
     public function getBaseAuthorizationUrl()
     {
-        return $this->basUrl.'/oauth/authorize';
+        return $this->baseUrl.'/oauth/authorize';
     }
 
     /**
