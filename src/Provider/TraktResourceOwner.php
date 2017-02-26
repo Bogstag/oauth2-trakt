@@ -1,9 +1,12 @@
 <?php namespace Bogstag\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
+use League\OAuth2\Client\Tool\ArrayAccessorTrait;
 
 class TraktResourceOwner implements ResourceOwnerInterface
 {
+
+    use ArrayAccessorTrait;
 
     /**
      * Raw response
@@ -29,7 +32,7 @@ class TraktResourceOwner implements ResourceOwnerInterface
      */
     public function getUsername()
     {
-        return $this->response['user']['username'] ?: null;
+        return $this->getValueByKey($this->response, 'user.username');
     }
 
     /**
@@ -39,27 +42,27 @@ class TraktResourceOwner implements ResourceOwnerInterface
      */
     public function getName()
     {
-        return $this->response['user']['name'] ?: null;
+        return $this->getValueByKey($this->response, 'user.name');
     }
 
     /**
-     * Get user avatarurl
+     * Get user avatar url
      *
      * @return string|null
      */
     public function getAvatarUrl()
     {
-        return $this->response['user']['images']['avatar']['full'] ?: null;
+        return $this->getValueByKey($this->response, 'user.images.avatar.full');
     }
 
     /**
-     * Get user id
+     * Get user slug
      *
      * @return string|null
      */
     public function getId()
     {
-        return $this->response['user']['ids']['slug'] ?: null;
+        return $this->getValueByKey($this->response, 'user.ids.slug');
     }
 
     /**
