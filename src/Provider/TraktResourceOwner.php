@@ -5,7 +5,6 @@ use League\OAuth2\Client\Tool\ArrayAccessorTrait;
 
 class TraktResourceOwner implements ResourceOwnerInterface
 {
-
     use ArrayAccessorTrait;
 
     /**
