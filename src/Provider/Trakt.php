@@ -90,7 +90,7 @@ class Trakt extends AbstractProvider
             throw new IdentityProviderException(
                 (isset($data['error']['message']) ? $data['error']['message'] : $response->getReasonPhrase()),
                 $response->getStatusCode(),
-                $response
+                $data
             );
         }
     }
