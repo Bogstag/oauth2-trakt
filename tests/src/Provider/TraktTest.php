@@ -102,6 +102,41 @@ class TraktTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($id, $user->toArray()['user']['ids']['slug']);
     }
 
+    public function testGetBaseRevokeAccessTokenUrl()
+    {
+        $url = $this->provider->getBaseRevokeAccessTokenUrl();
+        $uri = parse_url($url);
+
+        $this->assertEquals('/oauth/revoke', $uri['path']);
+    }
+
+    public function testRevokeAccessToken()
+    {
+        $token = m::mock('League\OAuth2\Client\Token\AccessTokenInterface');
+        $token->shouldReceive('getToken')->andReturn('mock_access_token');
+
+        $request = m::mock('Psr\Http\Message\RequestInterface');
+
+        $requestFactory = m::mock('League\OAuth2\Client\Tool\RequestFactory');
+        $requestFactory->shouldReceive('getRequestWithOptions')->with(
+            'POST',
+            'https://api.trakt.tv/oauth/revoke',
+            [
+                'headers' => [],
+                'client_id' => 'mock_client_id',
+                'client_secret' => 'mock_secret',
+                'token' => 'mock_access_token',
+            ]
+        )->andReturn($request);
+        $this->provider->setRequestFactory($requestFactory);
+
+        $client = m::mock('GuzzleHttp\ClientInterface');
+        $client->shouldReceive('send')->with($request);
+        $this->provider->setHttpClient($client);
+
+        $this->provider->revokeAccessToken($token);
+    }
+
     /**
      * @expectedException League\OAuth2\Client\Provider\Exception\IdentityProviderException
      **/
