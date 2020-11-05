@@ -1,6 +1,5 @@
 <?php namespace Bogstag\OAuth2\Client\Provider;
 
-use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
@@ -10,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
  * Class Trakt
  * @package Bogstag\OAuth2\Client\Provider
  */
-class Trakt extends AbstractProvider
+class Trakt extends AbstractExtendedProvider
 {
     use BearerAuthorizationTrait;
 
@@ -46,6 +45,14 @@ class Trakt extends AbstractProvider
     public function getBaseAccessTokenUrl(array $params)
     {
         return $this->baseUrlApi.'/oauth/token';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getBaseRevokeAccessTokenUrl()
+    {
+        return $this->baseUrlApi.'/oauth/revoke';
     }
 
     /**
